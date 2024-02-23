@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 RATE = 48000
 CHUNK = 4096
-FORMAT = pyaudio.paInt16
+FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 audio = pyaudio.PyAudio()
 stream = audio.open(format=FORMAT,
@@ -18,19 +18,16 @@ stream = audio.open(format=FORMAT,
 
 def estimate_frequency():
     data = stream.read(CHUNK)
-    numpy_array = np.frombuffer(data, dtype=np.int16)
+    numpy_array = np.frombuffer(data, dtype=np.float32)
 
-    # sos = signal.butter(4,1000,fs=RATE,output = 'sos')
-    # numpy_array = signal.sosfilt(sos,numpy_array)
-    
     yf = fft(numpy_array)
     magnitudes = np.abs(yf[0:CHUNK])   # Calculate the magnitude spectrum of the signal
 
     new_magnitudes = magnitudes
 
     #####HPS#####
-    # for i in range (len(magnitudes)//2):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
+    for i in range (len(magnitudes)//2):
+        new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
     # for i in range (len(magnitudes)//3):
     #     new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
     # for i in range (len(magnitudes)//4):
@@ -44,14 +41,16 @@ def estimate_frequency():
     return frequency
 
 if __name__ == '__main__':
+    print("Mulai")
     pitch_before = 0.
     pitch_now = 0.
     while True:
         try:
-            # pitch_now =  estimate_frequency()
-            # if np.abs(pitch_now - pitch_before) < 5.:
-            print(estimate_frequency(), "FFT")
-            pitch_before = pitch_now
+            pitch_now = estimate_frequency()
+            if 50 < pitch_now < 8000:
+                if np.abs(pitch_now - pitch_before) < 5:
+                    print(pitch_now, "FFT")
+                pitch_before = pitch_now
         except KeyboardInterrupt:
             print('Stopped by user')
             break
