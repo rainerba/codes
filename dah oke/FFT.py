@@ -3,6 +3,7 @@ import numpy as np
 from scipy.fft import fft
 from scipy import signal
 import matplotlib.pyplot as plt
+import psutil
 
 RATE = 48000
 CHUNK = 4096
@@ -28,8 +29,8 @@ def estimate_frequency():
     #####HPS#####
     for i in range (len(magnitudes)//2):
         new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
-    # for i in range (len(magnitudes)//3):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
+    for i in range (len(magnitudes)//3):
+        new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
     # for i in range (len(magnitudes)//4):
     #     new_magnitudes[i] *= np.mean(magnitudes[i*4 : i*4+4])
     # for i in range (len(magnitudes)//5):
@@ -46,6 +47,7 @@ if __name__ == '__main__':
     pitch_now = 0.
     while True:
         try:
+            # print(f"CPU: {os.()}%")
             pitch_now = estimate_frequency()
             if 50 < pitch_now < 8000:
                 if np.abs(pitch_now - pitch_before) < 5:
