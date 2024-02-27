@@ -15,22 +15,23 @@ stream = audio.open(format=FORMAT,
                     rate=RATE,
                     input=True,
                     frames_per_buffer=CHUNK)
-
+#Hanning Window
+window = 0.5 * (1-np.cos(np.linspace(0,2*np.pi, CHUNK, False)))
 
 def estimate_frequency():
     data = stream.read(CHUNK)
     numpy_array = np.frombuffer(data, dtype=np.float32)
 
-    yf = fft(numpy_array)
+    yf = np.fft(numpy_array)
     magnitudes = np.abs(yf[0:CHUNK])   # Calculate the magnitude spectrum of the signal
 
     new_magnitudes = magnitudes
 
     #####HPS#####
-    for i in range (len(magnitudes)//2):
-        new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
-    for i in range (len(magnitudes)//3):
-        new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
+    # for i in range (len(magnitudes)//2):
+    #     new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
+    # for i in range (len(magnitudes)//3):
+    #     new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
     # for i in range (len(magnitudes)//4):
     #     new_magnitudes[i] *= np.mean(magnitudes[i*4 : i*4+4])
     # for i in range (len(magnitudes)//5):
@@ -39,6 +40,10 @@ def estimate_frequency():
 
     index = np.argmax(new_magnitudes)   # Get the index of the maximum magnitude
     frequency = index * RATE / CHUNK    # Calculate the frequency of the maximum magnitude
+    print("Baca:", frequency)
+    plt.plot(new_magnitudes)
+    plt.ylabel("amplitude")
+    plt.show()
     return frequency
 
 if __name__ == '__main__':
