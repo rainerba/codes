@@ -22,28 +22,28 @@ def estimate_frequency():
     data = stream.read(CHUNK)
     numpy_array = np.frombuffer(data, dtype=np.float32)
 
-    yf = np.fft(numpy_array)
+    yf = fft(numpy_array)
     magnitudes = np.abs(yf[0:CHUNK])   # Calculate the magnitude spectrum of the signal
 
     new_magnitudes = magnitudes
 
     #####HPS#####
     # for i in range (len(magnitudes)//2):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*2 : i*2+2])
+    #     new_magnitudes[i] *= magnitudes[i*2]
     # for i in range (len(magnitudes)//3):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*3 : i*3+3])
+    #     new_magnitudes[i] *= magnitudes[i*3]
     # for i in range (len(magnitudes)//4):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*4 : i*4+4])
+    #     new_magnitudes[i] *= magnitudes[i*4]
     # for i in range (len(magnitudes)//5):
-    #     new_magnitudes[i] *= np.mean(magnitudes[i*5 : i*5+5])                        
+    #     new_magnitudes[i] *= magnitudes[i*5]                        
     #####HPS#####
 
     index = np.argmax(new_magnitudes)   # Get the index of the maximum magnitude
     frequency = index * RATE / CHUNK    # Calculate the frequency of the maximum magnitude
-    print("Baca:", frequency)
-    plt.plot(new_magnitudes)
-    plt.ylabel("amplitude")
-    plt.show()
+    # print("Baca:", frequency)
+    # plt.plot(new_magnitudes)
+    # plt.ylabel("amplitude")
+    # plt.show()
     return frequency
 
 if __name__ == '__main__':
@@ -54,7 +54,7 @@ if __name__ == '__main__':
         try:
             # print(f"CPU: {os.()}%")
             pitch_now = estimate_frequency()
-            if 50 < pitch_now < 8000:
+            if 70 < pitch_now < 8000:
                 if np.abs(pitch_now - pitch_before) < 5:
                     print(pitch_now, "FFT")
                 pitch_before = pitch_now

@@ -5,7 +5,7 @@ import pyaudio
 # Note detect funtions only need recieve the data from t to t + W + lagMax
  
 def ACF_lesm(f, W, t, lag):
-    corr = np.correlate(f[t : t + W], f[t + lag : t + lag + W], mode = 'valid')
+    corr = np.correlate(f[t : t + W], f[t + lag : t + lag + W], mode = 'valid') #corr: makin banyak kesamaan, makin tinggi nilai
     return corr[0]
 
 def DF_lesm(f, W, lag):
@@ -18,7 +18,7 @@ def detect_pitch_lesm(f, W, sample_rate, bounds, thresh=0.1):
     vals = [1]
     sample = None
 
-    for lag in range(1, lag_max):
+    for lag in range(1, lag_max): #1-640
         # Difference Function
         dfResult = DF_lesm(f, W, lag)
         # Memoized Cumulative Mean Normalized Difference Function
@@ -66,8 +66,8 @@ def detect_pitch_interpolated_lesm(f, W, sample_rate, bounds, thresh=0.1):
     return sample_rate / sample
 
 def process_audio(data, sample_rate,fmin, fmax, windows_size=1024, method='lesm'):
-    lagMin = int(1/fmax * sample_rate) #1/500 * 44100 = 88,2
-    lagMax = int(1/fmin * sample_rate) #1/70 * 44100 = 630
+    lagMin = int(1/fmax * sample_rate) #1/500 * 48000 = 96
+    lagMax = int(1/fmin * sample_rate) #1/75 * 48000 = 640
     bounds = [lagMin,lagMax]
 
     if method == 'lesm':
@@ -80,7 +80,7 @@ def process_audio(data, sample_rate,fmin, fmax, windows_size=1024, method='lesm'
     elif method == 'lesm-i':
         t = windows_size
         return detect_pitch_interpolated_lesm(f=data[t : t + windows_size + lagMax], W=windows_size, sample_rate=sample_rate, bounds=bounds)
-    
+    #coba t awal diubah jadi 0
     else:
         raise ValueError(f'Invalid method: {method}')
 
@@ -103,7 +103,7 @@ def lesm_main():
             x = data.copy()
             metode = 'lesm-i'
             if(len(x) == CHUNK):
-                pitch_now = process_audio(data = x, sample_rate = RATE, fmin=70, fmax=500, windows_size=1024, method=metode)
+                pitch_now = process_audio(data = x, sample_rate = RATE, fmin=75, fmax=500, windows_size=1024, method=metode)
                 if np.abs(pitch_before - pitch_now) < 5.:
                     print(pitch_now, "Hz", metode)
                 pitch_before = pitch_now
