@@ -16,13 +16,16 @@ stream = audio.open(format=FORMAT,
                     input=True,
                     frames_per_buffer=CHUNK)
 #Hanning Window
-window = 0.5 * (1-np.cos(np.linspace(0,2*np.pi, CHUNK, False)))
+# window = 0.5 * (1-np.cos(np.linspace(0,2*np.pi, CHUNK, False)))
 
 def estimate_frequency():
     data = stream.read(CHUNK)
     numpy_array = np.frombuffer(data, dtype=np.float32)
+    array_copy = numpy_array.copy()
 
-    yf = np.fft.fft(numpy_array)
+    array_copy *= signal.windows.hann(CHUNK)
+
+    yf = np.fft.fft(array_copy)
     magnitudes = np.abs(yf[0:CHUNK])   # Calculate the magnitude spectrum of the signal
 
     new_magnitudes = magnitudes
