@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import psutil
 
 RATE = 48000
-CHUNK = 4096
+CHUNK = 16384
 FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 audio = pyaudio.PyAudio()
@@ -22,7 +22,7 @@ def estimate_frequency():
     data = stream.read(CHUNK)
     numpy_array = np.frombuffer(data, dtype=np.float32)
 
-    yf = fft(numpy_array)
+    yf = np.fft.fft(numpy_array)
     magnitudes = np.abs(yf[0:CHUNK])   # Calculate the magnitude spectrum of the signal
 
     new_magnitudes = magnitudes
