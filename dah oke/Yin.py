@@ -1,5 +1,6 @@
 import numpy as np
 import pyaudio
+import testServo as putar
 
 # Optimized functions for Real Time - LESM (Ledesma-Smolkin / Less Math)
 # Note detect funtions only need recieve the data from t to t + W + lagMax
@@ -106,10 +107,19 @@ def lesm_main():
                 pitch_now = process_audio(data = x, sample_rate = RATE, fmin=75, fmax=500, windows_size=1024, method=metode)
                 if np.abs(pitch_before - pitch_now) < 5.:
                     print(pitch_now, "Hz", metode)
+                    return pitch_now
                 pitch_before = pitch_now
         except KeyboardInterrupt:
             print('Stopped by user')
             break
 
+acuan = 329.63
 if __name__ == '__main__':
-    lesm_main()
+    frek = lesm_main()
+    putar.start_servo()
+    if frek < acuan:
+        putar.CW()
+    elif frek > acuan:
+        putar.CCW()
+    elif acuan - 0.5 <= frek >= acuan + 0.5:
+        putar.servo_stop()
