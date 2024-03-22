@@ -11,13 +11,19 @@ def CW():
     p.ChangeDutyCycle(5)
 
 def CW_pelan():
-    p.ChangeDutyCycle(7)
+    p.ChangeDutyCycle(6.5)
 
 def CCW():
     p.ChangeDutyCycle(10)
 
 def CCW_pelan():
     p.ChangeDutyCycle(8)
+
+def hold():
+    p.ChangeDutyCycle(7)
+    sleep(5)
+    print("Silahkan lanjutkan penalaan . . .")
+    return True
 
 def servo_stop():
     p.stop()
