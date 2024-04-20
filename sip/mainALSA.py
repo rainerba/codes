@@ -1,44 +1,50 @@
-import pyaudio
+import pyalsaaudio
+import array
 import numpy as np
 import Servo
 import Yin
 import FFT
 import Zero_Crossing
 
-RATE = 48000
-CHUNK = 2048 #jangan dioatak atik
-p = pyaudio.PyAudio()
+CHUNK = 2048
+MIC = 2
+p = alsaaudio.PCS(type=alsaaudio.PCM_CAPTURE)
+p.setchannels(1)
+p.setrate(48000)
+p.setformat(alsaaudio.PCM+FORMAT_FLOAT_LE)
+p.setperiodsize(CHUNK)
 
 if __name__ == '__main__':
-    stream = p.open(format=pyaudio.paFloat32,
-                channels=1,
-                rate=RATE,
-                input=True,
-                output=True,
-                frames_per_buffer=CHUNK)
+    buffer = array.array('f')
 
     pilih_senar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-    senar = input("Pilih senar yang akan diatur: ") - 1
+    #senar = input("Pilih senar yang akan diatur: ") - 1
+    senar = 1
     cek = False
     metode = "yin"
+    pitch_before = 0.
     while True:
         try:
-            y = stream.read(CHUNK, exception_on_overflow = False)
-            data = np.frombuffer(y, dtype=np.float32)
+            buffer.fromstring(p.read()[2])
+            data = np.array(buffer, dtype='f')
             x = data.copy()
             if metode == "yin":
-                frek = Yin.lesm_main(x)
-                cek = True
+                frek = Yin.process_audio(x)
             elif metode == "fft":
                 frek = FFT.estimate_frequency(x)
-                cek = True
             elif metode == "zero_crossing":
-                frek = Zero_Crossing.main(x)
-                cek = True
+                frek = Zero_Crossing.main(data)
             else:
                 input("Metode salah, ketik yin, fft, atau zero_crossing")
+                
+            if np.abs(pitch_before - frek) < 5. and frek > 0:
+                print(frek)
+                cek = True
+            pitch_before = frek
+                
 
             if cek:
+                Servo.start_servo()
                 if frek < pilih_senar[senar]:
                     Servo.CW()
                 elif frek > pilih_senar[senar]:

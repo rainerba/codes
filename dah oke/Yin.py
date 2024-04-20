@@ -1,5 +1,5 @@
 import numpy as np
-
+import pyaudio
 # Optimized functions for Real Time - LESM (Ledesma-Smolkin / Less Math)
 # Note detect funtions only need recieve the data from t to t + W + lagMax
  
@@ -47,6 +47,7 @@ def detect_pitch_interpolated_lesm(f, W, bounds, thresh=0.1):
         # Memoized Cumulative Mean Normalized Difference Function
         running_sum += dfResult
         val = dfResult / running_sum * lag
+        print(val)
         vals.append(val)
         # Absolute Thresholding with short-stopping
         if lag >= bounds[0] and val < thresh:
@@ -54,6 +55,7 @@ def detect_pitch_interpolated_lesm(f, W, bounds, thresh=0.1):
             break
     # No acceptable lag found, default to minimum error
     else:
+        print("else")
         sample = np.argmin(vals[bounds[0]:]) + bounds[0]
     
     # Parabolic interpolation
@@ -81,7 +83,7 @@ def process_audio(data,fmin, fmax, windows_size=1024, method='lesm'):
         return detect_pitch_interpolated_lesm(f=data[t : t + windows_size + lagMax], W=windows_size, bounds=bounds)
     #coba t awal diubah jadi 0
     else:
-        raise ValueError(f'Invalid method: {method}')
+        raise ValueError('Invalid method: ', method)
 
 def lesm_main(x):
     pitch_before = 0.
@@ -90,11 +92,28 @@ def lesm_main(x):
     while True:
         try:
             metode = 'lesm-i'
-            pitch_now = process_audio(data = x, fmin=75, fmax=500, windows_size=1024, method=metode)
+            pitch_now = process_audio(data = x, fmin=75, fmax=500, windows_size=512, method=metode)
             if np.abs(pitch_before - pitch_now) < 5.:
                 print(pitch_now, "Hz", metode)
                 return pitch_now
             pitch_before = pitch_now
         except KeyboardInterrupt:
             print('Stopped by user')
+            break
+
+if __name__ == '__main__':
+    while True:
+        try:
+            p = pyaudio.PyAudio()
+            stream = p.open(format=pyaudio.paFloat32,
+                        channels=1,
+                        rate=48000,
+                        input=True,
+                        # input_device_index=0,
+                        frames_per_buffer=2048)
+            y = stream.read(2048)
+            data = np.frombuffer(y, dtype=np.float32)
+            lesm_main(data)
+            break
+        except KeyboardInterrupt:
             break
