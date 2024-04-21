@@ -5,7 +5,7 @@ import Servo
 from time import sleep
 from datetime import datetime
 
-metode = "zeroC"
+metode = "yin"
 threshold= 1. #toleransi frekuensi dalam persen
 CHUNK = 2048
 
@@ -14,7 +14,7 @@ p = pyaudio.PyAudio()
 ps = psutil.Process()
 cek = False
 hitung = 0
-MIC = 2
+MIC = 1
 cpu_persen = []
 stream = p.open(format=pyaudio.paFloat32,
                 channels=1,
@@ -50,7 +50,7 @@ def ambil_data():
 if __name__ == '__main__':
     select_microphone(MIC)
     print("Threshold: ", threshold, "persen")
-    senar = input("Pilih senar yang akan diatur: ") - 1
+    senar = int(input("Pilih senar yang akan diatur: ")) - 1
     Servo.start_servo()
     print("mulai genjreng")
     start = datetime.now()
@@ -60,7 +60,7 @@ if __name__ == '__main__':
             with ps.oneshot():
                 cpu_persen.append(ps.cpu_percent())
                 memori = ps.memory_full_info()
-                print(memori)
+                # print(memori)
             beda = frek - pSenar[senar]
             if np.abs(beda) < 30: #ubah kalo terlalu banyak noise yang kedetect
                 print("beda", beda)
@@ -73,11 +73,11 @@ if __name__ == '__main__':
                     if hitung == 2: #ubah kalo terlalu hoki
                         end = datetime.now()
                         hasil = (end - start).total_seconds()
-                        print(hasil)
+                        print(hasil, "detik")
                         cpu = np.mean(cpu_persen)
                         cpu_persen = []
-                        print(cpu)
-                        senar = input("Senar? ") - 1
+                        print(cpu, "cpu")
+                        senar = int(input("Senar? ")) - 1
                         hitung = 0
                         start = datetime.now()
                 else: #untuk memastikan perhitungan bukan ((hoki))
