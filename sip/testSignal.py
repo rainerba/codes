@@ -16,12 +16,12 @@ if __name__ == '__main__':
     noise = np.random.normal(0, np.std(signal), len(signal))
     x = np.float32(signal)
     if metode == "yin":
-        import sip.Yin as Yin
+        import Yin
         frek = Yin.process_audio(x)
     elif metode == "fft":
-        import sip.FFT as FFT
+        import FFT
         frek = FFT.estimate_frequency(x)
     elif metode == "zeroC":
-        import sip.Zero_Crossing
-        frek = sip.Zero_Crossing.main(x)
+        import Zero_Crossing
+        frek = Zero_Crossing.main(x)
     print(frek)
