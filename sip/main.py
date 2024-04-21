@@ -5,9 +5,9 @@ import Servo
 from time import sleep
 from datetime import datetime
 
-metode = "zeroC"
+metode = "yin"
 threshold= 1. #toleransi frekuensi dalam persen
-CHUNK = 2048
+CHUNK = 1024
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 p = pyaudio.PyAudio()

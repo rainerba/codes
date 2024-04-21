@@ -2,7 +2,6 @@ import pyaudio
 import numpy as np
 from scipy import signal
 import matplotlib.pyplot as plt
-import psutil
 
 RATE = 48000
 CHUNK = 2048 * 16

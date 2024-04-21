@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-metode = "yin"
+metode = "zeroC"
 f=330
 t=1
 

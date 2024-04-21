@@ -1,6 +1,6 @@
 import pyaudio
 import numpy as np
-import Servo
+# import Servo
 import Yin
 import FFT
 import Zero_Crossing
@@ -18,7 +18,7 @@ if __name__ == '__main__':
                 frames_per_buffer=CHUNK)
 
     pilih_senar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-    senar = input("Pilih senar yang akan diatur: ") - 1
+    senar = int(input("Pilih senar yang akan diatur: ")) - 1
     cek = False
     metode = "yin"
     while True:
@@ -40,11 +40,14 @@ if __name__ == '__main__':
 
             if cek:
                 if frek < pilih_senar[senar]:
-                    Servo.CW()
+                    # Servo.CW()
+                    print("naik")
                 elif frek > pilih_senar[senar]:
-                    Servo.CCW()
+                    # Servo.CCW()
+                    print("turun")
                 elif pilih_senar[senar] - 5 <= frek >= pilih_senar[senar] + 5:
-                    Servo.servo_stop()
+                    # Servo.servo_stop()6
+                    print("ok")
 
         except KeyboardInterrupt:
             print("Program Berhenti")
