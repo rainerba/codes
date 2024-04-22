@@ -1,15 +1,16 @@
 import numpy as np
+import matplotlib.pyplot as plt
 #from scipy.signal import find_peaks
 
 RATE = 48000.
-pad = 48000
+pad = 2**17
 order = 3
 
 def estimate_frequency(data):
     #Windowing
     data *= np.hamming(len(data))
     #ZeroPadding
-    #data = np.pad(data,(0,pad-len(data)),'constant', constant_values=(0,0))
+    data = np.pad(data,(0,pad-len(data)),'constant', constant_values=(0,0))
     #FFT
     fft = np.fft.rfft(data)
     fft = np.abs(fft)   # Calculate the magnitude spectrum of the signal

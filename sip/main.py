@@ -7,7 +7,7 @@ from datetime import datetime
 
 metode = "yin"
 threshold= 1. #toleransi frekuensi dalam persen
-CHUNK = 1024
+CHUNK = 2048
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 p = pyaudio.PyAudio()

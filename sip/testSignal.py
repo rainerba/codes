@@ -2,25 +2,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 metode = "zeroC"
-f=330 # Frekuensi sinyal
-t=1 # Lama sinyal dalam detik
+f=329.63 # Frekuensi sinyal
+CHUNK = 2048
 harmonics = 6
 fs = 48000.
 
 if __name__ == '__main__':
-    x = np.arange(t * fs) / fs
+    x = np.arange(CHUNK) / fs
     signal = np.sin(2 * np.pi * f * x)
     # Harmoni
     for i in range(2,harmonics+1):
-        signal += np.sin(2 * np.pi * f * i * x)/i
+        signal += np.sin(2 * np.pi * f * i * x) / i
     # Amplitude berkurang
     envelope = lambda x: np.exp(-x)
     signal *= envelope(x)
-    # Dengan noise
-    # noise = np.random.normal(0, np.std(signal), len(signal))
-    # signal += noise
-    plt.plot(signal)
-    plt.show()
     data = np.float32(signal)
 
     if metode == "yin":
