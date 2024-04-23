@@ -20,7 +20,7 @@ def servo_stop():
     p.stop()
     GPIO.cleanup()
     
-def map_range(x, in_min=-threshold, in_max=0., out_min=5., out_max=6.5):
+def map_range(x, in_min=-threshold, in_max=0., out_min=5., out_max=6.4):
     if x < -threshold:
         x = -threshold
     elif x > threshold:
@@ -34,7 +34,7 @@ def main(x, y):
     elif x < 0:
         putar = map_range(x)
     elif x > 0:
-        putar = map_range(x, in_min=0., in_max=threshold, out_min=7.5, out_max=10.)
+        putar = map_range(x, in_min=0., in_max=threshold, out_min=7.6, out_max=10.)
     p.ChangeDutyCycle(putar)
     
 if __name__ == '__main__': #gerak di: 7.4, 6.7

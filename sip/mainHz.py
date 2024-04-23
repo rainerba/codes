@@ -6,7 +6,7 @@ from time import sleep
 from datetime import datetime
 
 metode = "fft"
-threshold= 2 #toleransi frekuensi dalam Hz
+threshold= 0.1 #toleransi frekuensi dalam Hz
 CHUNK = 2048
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
@@ -14,7 +14,7 @@ p = pyaudio.PyAudio()
 cek = False
 pitch_before = 0.
 hitung = 0
-MIC = 2
+MIC = 1
 stream = p.open(format=pyaudio.paFloat32,
                 channels=1,
                 rate=48000,
