@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-#from scipy.signal import find_peaks
 
 RATE = 48000.
 pad = 2**17
@@ -16,8 +14,6 @@ def estimate_frequency(data):
     #FFT
     fft = np.fft.rfft(data)
     fft = np.abs(fft)   # Calculate the magnitude spectrum of the signal
-    #plt.plot(fft)
-    #plt.show()
     #Harmonic Product Spectrum
     hps = []
     for i in range (1, order):
@@ -29,9 +25,7 @@ def estimate_frequency(data):
     index = np.argmax(fft[geser:1000]) + geser
     #Filtering
     if geser < index:
-        print("index", index)
         frequency = index * RATE / pad   # Calculate the frequency of the maximum magnitude
-        print("frequency", frequency)
         return frequency
     else:
         return index
