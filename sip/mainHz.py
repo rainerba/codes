@@ -33,7 +33,7 @@ def ambil_data():
     y = stream.read(CHUNK, exception_on_overflow = False)
     data = np.frombuffer(y, dtype=np.float32)
     x = data.copy()
-    if metode == "zeroC":
+    if metode == "yin":
         import Yin
         frek = Yin.process_audio(x)
     elif metode == "fft":
@@ -49,7 +49,7 @@ def ambil_data():
 if __name__ == '__main__':
     select_microphone(MIC)
     print("Threshold: ", threshold, "Hz")
-    senar = input("Pilih senar yang akan diatur: ") - 1
+    senar = int(input("Pilih senar yang akan diatur: ")) - 1
     Servo.start_servo()
     print("mulai genjreng")
     start = datetime.now()
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                     if hitung == 2: #ubah kalo terlalu hoki
                         end = datetime.now()
                         print((end - start).total_seconds())
-                        senar = input("Senar? ") - 1
+                        senar = int(input("Senar? ")) - 1
                         hitung = 0
                         start = datetime.now()
                 else: #untuk memastikan perhitungan bukan ((hoki))

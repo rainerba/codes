@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 RATE = 48000.
 pad = 2**17
 order = 3
+geser = 150
 
 def estimate_frequency(data):
+    print("fft")
     #Windowing
     data *= np.hamming(len(data))
     #ZeroPadding
@@ -14,6 +16,8 @@ def estimate_frequency(data):
     #FFT
     fft = np.fft.rfft(data)
     fft = np.abs(fft)   # Calculate the magnitude spectrum of the signal
+    #plt.plot(fft)
+    #plt.show()
     #Harmonic Product Spectrum
     hps = []
     for i in range (1, order):
@@ -22,11 +26,11 @@ def estimate_frequency(data):
         for k in range(len(hps[j])):
             fft[k] *= hps[j][k]
     #Get the index of the maximum magnitude
-    index = np.argmax(fft)
+    index = np.argmax(fft[geser:1000]) + geser
     #Filtering
-    if index > 0:
+    if geser < index:
         print("index", index)
-        frequency = index * RATE / pad    # Calculate the frequency of the maximum magnitude
+        frequency = index * RATE / pad   # Calculate the frequency of the maximum magnitude
         print("frequency", frequency)
         return frequency
     else:
