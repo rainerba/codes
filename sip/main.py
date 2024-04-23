@@ -5,7 +5,7 @@ import Servo
 from time import sleep
 from datetime import datetime
 
-metode = "yin"
+metode = "fft"
 threshold= 1. #toleransi frekuensi dalam persen
 CHUNK = 2048
 
@@ -14,7 +14,7 @@ p = pyaudio.PyAudio()
 ps = psutil.Process()
 cek = False
 hitung = 0
-MIC = 1
+MIC = 2
 cpu_persen = []
 stream = p.open(format=pyaudio.paFloat32,
                 channels=1,
