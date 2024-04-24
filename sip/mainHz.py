@@ -7,7 +7,7 @@ from datetime import datetime
 
 metode = "fft"
 threshold= 0.1 #toleransi frekuensi dalam Hz
-CHUNK = 2048
+CHUNK = 8192
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 p = pyaudio.PyAudio()

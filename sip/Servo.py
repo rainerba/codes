@@ -20,7 +20,7 @@ def servo_stop():
     p.stop()
     GPIO.cleanup()
     
-def map_range(x, in_min=-threshold, in_max=0., out_min=5., out_max=6.4):
+def map_range(x, in_min=-threshold, in_max=0., out_min=5., out_max=6.3):
     if x < -threshold:
         x = -threshold
     elif x > threshold:

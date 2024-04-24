@@ -36,7 +36,7 @@ def detect_pitch_interpolated_lesm(f, W, bounds, thresh=0.1):
         sample += correction
     return 48000 / sample
 
-def process_audio(data,fmin=75, fmax=500, windows_size=512):
+def process_audio(data,fmin=75, fmax=500, windows_size=1024):
     lagMin = 48000//fmax #= 96
     lagMax = 48000//fmin #= 640
     bounds = [lagMin,lagMax]
