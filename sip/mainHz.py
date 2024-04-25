@@ -6,15 +6,16 @@ from time import sleep
 from datetime import datetime
 
 metode = "fft"
-threshold= 0.1 #toleransi frekuensi dalam Hz
-CHUNK = 8192
+threshold= 2. #Hz
+MIC = 2
 
+CHUNK = 8192
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 p = pyaudio.PyAudio()
 cek = False
 pitch_before = 0.
 hitung = 0
-MIC = 1
+
 stream = p.open(format=pyaudio.paFloat32,
                 channels=1,
                 rate=48000,
@@ -41,7 +42,7 @@ def ambil_data():
         frek = FFT.estimate_frequency(x)
     elif metode == "zeroC":
         import Zero_Crossing
-        frek = Zero_Crossing.main(data)
+        frek = Zero_Crossing.main(x)
     else:
         input("Metode salah, ketik yin, fft, atau zero_crossing")
     return frek    

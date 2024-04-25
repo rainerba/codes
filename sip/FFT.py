@@ -3,6 +3,7 @@ import numpy as np
 RATE = 48000.
 pad = 2**17
 order = 3
+batas = [200,1000]
 
 def estimate_frequency(data):
     # Windowing
@@ -20,9 +21,9 @@ def estimate_frequency(data):
         for k in range(len(hps[j])):
             fft[k] *= hps[j][k]
     # Get the index of the maximum magnitude
-    index = np.argmax(fft[150:1000]) + 150
+    index = np.argmax(fft[batas[0]:batas[1]]) + batas[0]
     # Filtering
-    if 150 < index:
+    if batas[0] < index:
         frequency = index * RATE / pad   # Calculate the frequency of the maximum magnitude
         return frequency
     else:
