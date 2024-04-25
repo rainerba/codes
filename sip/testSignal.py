@@ -1,9 +1,9 @@
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 metode = "zeroC"
 f=329.63 # Frekuensi sinyal
-CHUNK = 2048
+CHUNK = 8192
 harmonics = 6
 fs = 48000.
 

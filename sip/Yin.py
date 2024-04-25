@@ -45,7 +45,7 @@ def process_audio(data,fmin=75, fmax=500, windows_size=1024):
 
 if __name__ == '__main__':
     import pyaudio
-    CHUNK = 2048
+    CHUNK = 8192
     RATE = 48000
     p =  pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32,

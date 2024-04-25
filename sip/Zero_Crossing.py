@@ -1,6 +1,4 @@
 import numpy as np
-CHUNK = 2048
-RATE = 48000
 
 def main(x):
     zero_crossings = np.where(np.diff(np.sign(x)))[0]
@@ -12,7 +10,7 @@ def main(x):
 
 if __name__ == '__main__':
     import pyaudio
-    CHUNK = 2048
+    CHUNK = 8192
     RATE = 48000
     p =  pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32,
