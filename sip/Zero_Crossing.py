@@ -10,20 +10,19 @@ import numpy as np
 def main(x):
     hitungP = 0
     hitungN = 0
-    L = (1.5 / len(x)) * np.sum(np.abs(x))
+    N = len(x)
+    L = 1.8 * np.sum(np.abs(x)) / N
 
     xP = x-L
     xN = x+L
-    for n in range(len(x)-1):
+    for n in range(N-1):
         if xP[n] < 0 < xP[n+1]:
             hitungP+=1
         if xN[n] < 0 < xN[n+1]:
             hitungN+=1
-    zcrP = (1/len(x)) * hitungP
-    zcrN = (1/len(x)) * hitungN
-    freqP = zcrP * 48000.
-    freqN = zcrN * 48000.
-    freq = (freqP + freqN) / 2.
+    zcrP = hitungP / N
+    zcrN = hitungN / N
+    freq = (48000. * (zcrP + zcrN)) / 2.
     return freq
 
 if __name__ == '__main__':
