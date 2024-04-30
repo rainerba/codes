@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 # def main(x):
 #     zero_crossings = np.where(np.diff(np.sign(x)))[0]
