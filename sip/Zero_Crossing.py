@@ -14,20 +14,19 @@ def main(x):
 
     hitungP = 0
     hitungN = 0
-    L = (1.2 / len(x)) * np.sum(np.abs(x))
-    print("L:", L)
+    N = len(x)
+    L = 1.8 * np.sum(np.abs(x)) / N
 
     xP = x-L
     xN = x+L
-    for n in range(len(x)-1):
+    for n in range(N-1):
         if xP[n] < 0 < xP[n+1]:
             hitungP+=1
         if xN[n] < 0 < xN[n+1]:
             hitungN+=1
-    zcrP = (1/len(x)) * hitungP
-    zcrN = (1/len(x)) * hitungN
-    freq = 48000. * (zcrP + zcrN) / 2.
-    print(freq)
+    zcrP = hitungP / N
+    zcrN = hitungN / N
+    freq = (48000. * (zcrP + zcrN)) / 2.
     return freq
 
 if __name__ == '__main__':
