@@ -7,7 +7,6 @@ order = 3
 batas = [200,1000]
 
 def estimate_frequency(data):
-    data-=0.008
     # Windowing
     data *= np.hamming(len(data))
     # ZeroPadding
@@ -48,6 +47,7 @@ if __name__ == '__main__':
             y = stream.read(CHUNK, exception_on_overflow = False)
             data = np.frombuffer(y, dtype=np.float32)
             x = data.copy()
+            x -= 0.008
             frek = estimate_frequency(x)
             print(frek)
         except KeyboardInterrupt:

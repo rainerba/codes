@@ -35,20 +35,26 @@ def ambil_data():
     y = stream.read(CHUNK, exception_on_overflow = False)
     data = np.frombuffer(y, dtype=np.float32)
     x = data.copy()
+    x -= 0.008
     if metode == "yin":
-        import Yin
         frek = Yin.process_audio(x)
     elif metode == "fft":
-        import FFT
         frek = FFT.estimate_frequency(x)
     elif metode == "zeroC":
-        import Zero_Crossing
         frek = Zero_Crossing.main(x)
     else:
-        input("Metode salah, ketik yin, fft, atau zero_crossing")
-    return frek    
+        print("metode salah")
+    return frek       
     
 if __name__ == '__main__':
+    if metode == "yin":
+        import Yin
+    elif metode == "fft":
+        import FFT
+    elif metode == "zeroC":
+        import Zero_Crossing
+    else:
+        input("Metode salah, ketik yin, fft, atau zero_crossing")
     select_microphone(MIC)
     print("Threshold: ", threshold, "Hz")
     senar = int(input("Pilih senar yang akan diatur: ")) - 1

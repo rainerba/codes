@@ -9,13 +9,13 @@ import matplotlib.pyplot as plt
 #     return freq
 
 def main(x):
-    x -= 0.008
     plt.plot(x)
+    # Duplikasi data
     #x = np.append(x,x) # 16_384
     #x = np.append(x,x) # 32_768
     #x = np.append(x,x) # 65_536
     
-    #Simple Moving Average
+    # Simple Moving Average
     x = np.convolve(x,np.ones(64), 'same')
     plt.plot(x)
 
@@ -52,6 +52,7 @@ if __name__ == '__main__':
             y = stream.read(CHUNK, exception_on_overflow = False)
             data = np.frombuffer(y, dtype=np.float32)
             x = data.copy()
+            x -= 0.008
             frek = main(x)
             print(frek)
         except KeyboardInterrupt:
