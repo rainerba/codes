@@ -47,7 +47,7 @@ if __name__ == '__main__':
             y = stream.read(CHUNK, exception_on_overflow = False)
             data = np.frombuffer(y, dtype=np.float32)
             x = data.copy()
-            x -= 0.008
+            x -= np.mean(x)
             frek = estimate_frequency(x)
             print(frek)
         except KeyboardInterrupt:

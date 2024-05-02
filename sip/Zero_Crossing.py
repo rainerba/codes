@@ -32,7 +32,9 @@ def main(x):
             zcrN+=1
     freq = (48000. * (zcrP + zcrN) / N) / 2.
     print(freq)
-    #plt.show()
+    plt.plot(xP)
+    plt.plot(xN)
+    plt.show()
     return freq
 
 if __name__ == '__main__':
@@ -52,7 +54,7 @@ if __name__ == '__main__':
             y = stream.read(CHUNK, exception_on_overflow = False)
             data = np.frombuffer(y, dtype=np.float32)
             x = data.copy()
-            x -= 0.008
+            x -= np.mean(x)
             frek = main(x)
             print(frek)
         except KeyboardInterrupt:

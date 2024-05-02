@@ -35,7 +35,7 @@ def ambil_data():
     y = stream.read(CHUNK, exception_on_overflow = False)
     data = np.frombuffer(y, dtype=np.float32)
     x = data.copy()
-    x -= 0.008
+    x -= np.mean(x)
     if metode == "yin":
         frek = Yin.process_audio(x)
     elif metode == "fft":

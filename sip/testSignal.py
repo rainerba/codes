@@ -16,6 +16,7 @@ if __name__ == '__main__':
     envelope = lambda x: np.exp(-x)
     signal *= envelope(x)
     data = np.float32(signal)
+    data -= np.mean(data)
 
     if metode == "yin":
         import Yin
