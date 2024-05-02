@@ -9,8 +9,15 @@ import matplotlib.pyplot as plt
 #     return freq
 
 def main(x):
+    x -= 0.008
+    plt.plot(x)
+    #x = np.append(x,x) # 16_384
+    #x = np.append(x,x) # 32_768
+    #x = np.append(x,x) # 65_536
+    
     #Simple Moving Average
-    x = np.convolve(x,np.ones(20), 'same')
+    x = np.convolve(x,np.ones(64), 'same')
+    plt.plot(x)
 
     zcrP = 0
     zcrN = 0
@@ -24,11 +31,13 @@ def main(x):
         if xN[n] < 0 < xN[n+1]:
             zcrN+=1
     freq = (48000. * (zcrP + zcrN) / N) / 2.
+    print(freq)
+    #plt.show()
     return freq
 
 if __name__ == '__main__':
     import pyaudio
-    CHUNK = 4096
+    CHUNK = 8192
     RATE = 48000
     p =  pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32,
@@ -37,7 +46,7 @@ if __name__ == '__main__':
                 input=True,
                 output=True,
                 frames_per_buffer=CHUNK,
-                input_device_index = 2)
+                input_device_index = 1)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)

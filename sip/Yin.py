@@ -54,7 +54,7 @@ if __name__ == '__main__':
                 input=True,
                 output=True,
                 frames_per_buffer=CHUNK,
-                input_device_index = 2)
+                input_device_index = 1)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)

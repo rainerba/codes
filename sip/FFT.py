@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 RATE = 48000.
 pad = 2**17
@@ -6,6 +7,7 @@ order = 3
 batas = [200,1000]
 
 def estimate_frequency(data):
+    data-=0.008
     # Windowing
     data *= np.hamming(len(data))
     # ZeroPadding
@@ -40,7 +42,7 @@ if __name__ == '__main__':
                 input=True,
                 output=True,
                 frames_per_buffer=CHUNK,
-                input_device_index = 2)
+                input_device_index = 1)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)
