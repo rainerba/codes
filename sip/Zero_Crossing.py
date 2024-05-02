@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 # def main(x):
 #     zero_crossings = np.where(np.diff(np.sign(x)))[0]
@@ -8,6 +9,9 @@ import numpy as np
 #     return freq
 
 def main(x):
+    #Simple Moving Average
+    x = np.convolve(x,np.ones(20), 'same')
+
     zcrP = 0
     zcrN = 0
     N = len(x)
