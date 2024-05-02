@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 #     return freq
 
 def main(x):
-    plt.plot(x)
+    plt.plot(x, label = 'asli')
     # Duplikasi data
     #x = np.append(x,x) # 16_384
     #x = np.append(x,x) # 32_768
@@ -17,7 +17,7 @@ def main(x):
     
     # Simple Moving Average
     x = np.convolve(x,np.ones(64), 'same')
-    plt.plot(x)
+    plt.plot(x, label = 'data')
 
     zcrP = 0
     zcrN = 0
@@ -32,8 +32,9 @@ def main(x):
             zcrN+=1
     freq = (48000. * (zcrP + zcrN) / N) / 2.
     print(freq)
-    plt.plot(xP)
-    plt.plot(xN)
+    plt.plot(xP, label = 'xP')
+    plt.plot(xN, label = 'xN')
+    plt.legend()
     plt.show()
     return freq
 
