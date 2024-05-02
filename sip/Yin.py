@@ -53,7 +53,8 @@ if __name__ == '__main__':
                 rate=RATE,
                 input=True,
                 output=True,
-                frames_per_buffer=CHUNK)
+                frames_per_buffer=CHUNK,
+                input_device_index = 2)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)

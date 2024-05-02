@@ -8,26 +8,23 @@ import numpy as np
 #     return freq
 
 def main(x):
-    hitungP = 0
-    hitungN = 0
+    zcrP = 0
+    zcrN = 0
     N = len(x)
-    L = 1.8 * np.sum(np.abs(x)) / N
-
+    L = 1.2 * np.sum(np.abs(x)) / N
     xP = x-L
     xN = x+L
     for n in range(N-1):
         if xP[n] < 0 < xP[n+1]:
-            hitungP+=1
+            zcrP+=1
         if xN[n] < 0 < xN[n+1]:
-            hitungN+=1
-    zcrP = hitungP / N
-    zcrN = hitungN / N
-    freq = (48000. * (zcrP + zcrN)) / 2.
+            zcrN+=1
+    freq = (48000. * (zcrP + zcrN) / N) / 2.
     return freq
 
 if __name__ == '__main__':
     import pyaudio
-    CHUNK = 8192
+    CHUNK = 4096
     RATE = 48000
     p =  pyaudio.PyAudio()
     stream = p.open(format=pyaudio.paFloat32,
@@ -35,7 +32,8 @@ if __name__ == '__main__':
                 rate=RATE,
                 input=True,
                 output=True,
-                frames_per_buffer=CHUNK)
+                frames_per_buffer=CHUNK,
+                input_device_index = 2)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)

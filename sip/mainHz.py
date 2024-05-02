@@ -5,7 +5,7 @@ import Servo
 from time import sleep
 from datetime import datetime
 
-metode = "fft"
+metode = "zeroC"
 threshold= 2. #Hz
 MIC = 2
 
