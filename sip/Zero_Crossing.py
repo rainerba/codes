@@ -16,8 +16,8 @@ def main(x):
     #x = np.append(x,x) # 65_536
     
     # Simple Moving Average
-    x = np.convolve(x,np.ones(64), 'same')
-    plt.plot(x, label = 'data')
+    x = np.convolve(x,np.ones(128), 'same')
+    plt.plot(x, label = 'SMA')
 
     zcrP = 0
     zcrN = 0
@@ -32,10 +32,8 @@ def main(x):
             zcrN+=1
     freq = (48000. * (zcrP + zcrN) / N) / 2.
     print(freq)
-    plt.plot(xP, label = 'xP')
-    plt.plot(xN, label = 'xN')
     plt.legend()
-    plt.show()
+    #plt.show()
     return freq
 
 if __name__ == '__main__':
