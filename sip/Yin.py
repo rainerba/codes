@@ -36,7 +36,7 @@ def detect_pitch_interpolated_lesm(f, W, bounds, thresh=0.1):
         sample += correction
     return 48000 / sample
 
-def process_audio(data,fmin=75, fmax=500, windows_size=1024):
+def main(data,fmin=75, fmax=500, windows_size=1024):
     lagMin = 48000//fmax #= 96
     lagMax = 48000//fmin #= 640
     bounds = [lagMin,lagMax]
@@ -44,28 +44,12 @@ def process_audio(data,fmin=75, fmax=500, windows_size=1024):
     return hasil
 
 if __name__ == '__main__':
-    import pyaudio
-    CHUNK = 8192
-    RATE = 48000
-    p =  pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paFloat32,
-                channels=1,
-                rate=RATE,
-                input=True,
-                output=True,
-                frames_per_buffer=CHUNK,
-                input_device_index = 2)
+    import audio
     while True:
         try:
-            y = stream.read(CHUNK, exception_on_overflow = False)
-            data = np.frombuffer(y, dtype=np.float32)
-            x = data.copy()
-            x -= np.mean(x)
-            frek = process_audio(x)
+            x = audio.ambil_data()
+            frek = main(x)
             print(frek)
         except KeyboardInterrupt:
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
-            print("Program Berhenti")
+            audio.stop()
             break

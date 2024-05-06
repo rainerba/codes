@@ -6,7 +6,7 @@ pad = 2**17
 order = 3
 batas = [200,1000]
 
-def estimate_frequency(data):
+def main(data):
     # Windowing
     data *= np.hamming(len(data))
     # ZeroPadding
@@ -31,28 +31,12 @@ def estimate_frequency(data):
         return index
 
 if __name__ == '__main__':
-    import pyaudio
-    CHUNK = 8192
-    RATE = 48000
-    p =  pyaudio.PyAudio()
-    stream = p.open(format=pyaudio.paFloat32,
-                channels=1,
-                rate=RATE,
-                input=True,
-                output=True,
-                frames_per_buffer=CHUNK,
-                input_device_index = 1)
+    import audio
     while True:
         try:
-            y = stream.read(CHUNK, exception_on_overflow = False)
-            data = np.frombuffer(y, dtype=np.float32)
-            x = data.copy()
-            x -= np.mean(x)
-            frek = estimate_frequency(x)
+            x = audio.ambil_data()
+            frek = main(x)
             print(frek)
         except KeyboardInterrupt:
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
-            print("Program Berhenti")
+            audio.stop()
             break

@@ -1,45 +1,26 @@
-import pyaudio
 import numpy as np
 import psutil
 import Servo
+import audio
 from time import sleep
 from datetime import datetime
 
 metode = "yin"
 threshold= 2. #persen
-MIC = 2
 
 CHUNK = 8192
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-p = pyaudio.PyAudio()
 ps = psutil.Process()
 cek = False
 hitung = 0
 cpu_persen = []
 
-stream = p.open(format=pyaudio.paFloat32,
-                channels=1,
-                rate=48000,
-                input=True,
-                frames_per_buffer=CHUNK,
-                input_device_index = MIC)
-
-def select_microphone(index):
-    device_info = p.get_device_info_by_index(index)
-    if device_info.get('maxInputChannels') > 0:
-        print("Selected Microphone:", device_info.get('name'))
-    else:
-        print("No microphone at index ", index)
-
 def ambil_data():
-    y = stream.read(CHUNK, exception_on_overflow = False)
-    data = np.frombuffer(y, dtype=np.float32)
-    x = data.copy()
-    x -= np.mean(x)
+    x = audio.ambil_data
     if metode == "yin":
-        frek = Yin.process_audio(x)
+        frek = a.main(x)
     elif metode == "fft":
-        frek = FFT.estimate_frequency(x)
+        frek = FFT.main(x)
     elif metode == "zeroC":
         frek = Zero_Crossing.main(x, senar)
     else:
@@ -49,13 +30,13 @@ def ambil_data():
 if __name__ == '__main__':
     if metode == "yin":
         import Yin
+        a = "Yin"
     elif metode == "fft":
         import FFT
     elif metode == "zeroC":
         import Zero_Crossing
     else:
         input("Metode salah, ketik yin, fft, atau zero_crossing")
-    select_microphone(MIC)
     print("Threshold: ", threshold, "persen")
     senar = int(input("Pilih senar yang akan diatur: ")) - 1
     Servo.start_servo()
@@ -95,9 +76,6 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             cpu = np.mean(cpu_persen)
             print(cpu)
-            stream.stop_stream()
-            stream.close()
-            p.terminate()
+            audio.stop()
             Servo.servo_stop()
-            print(" Program Berhenti")
             break
