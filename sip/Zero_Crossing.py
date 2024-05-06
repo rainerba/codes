@@ -1,22 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import butter, lfilter
+from scipy.signal import butter, sosfilt
 
-def butter_bandpass(lowcut, highcut, fs, order=6):
+def butter_bandpass(lowcut, highcut, fs, order=9):
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
-    b, a = butter(order, [low, high], btype='band')
-    return b, a
+    sos = butter(order, [low, high], analog=False, btype='band', output='sos')
+    return sos
 
-def butter_bandpass_filter(data, lowcut=75., highcut=350., fs=48000., order=3):
-    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-    y = lfilter(b, a, data)
+def butter_bandpass_filter(data, lowcut=75., highcut=350., fs=48000., order=9):
+    sos = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = sosfilt(sos, data)
     return y
 
 def main(x, senar):
     batas = [[293.66,369.99],[220.0,277.18],[174.61,220.],[130.81,164.81],[98.,123.47],[73.42,92.5]]
-    x = butter_bandpass_filter(x)
+    x = butter_bandpass_filter(x, lowcut=batas[senar,0], highcut=[senar,1])
 
     # Duplikasi data
     #x = np.append(x,x) # 16_384
@@ -48,10 +48,11 @@ def main(x, senar):
 if __name__ == '__main__':
     maxx = []
     import audio
+    senar = int(input("Pilih senar yang akan diatur: ")) - 1
     while True:
         try:
             x = audio.ambil_data()
-            frek,max = main(x)
+            frek,max = main(x,senar)
             print(frek)
             maxx = np.append(maxx, max)
         except KeyboardInterrupt:

@@ -15,22 +15,22 @@ cek = False
 hitung = 0
 cpu_persen = []
 
-def ambil_data(a):
+def ambil_data(senar):
     x = audio.ambil_data
     if metode == "yin":
-        frek = a.main(x)
+        frek = Yin.main(x)
     elif metode == "fft":
         frek = FFT.main(x)
     elif metode == "zeroC":
         frek = Zero_Crossing.main(x, senar)
     else:
+        frek = 0.
         print("metode salah")
     return frek    
     
 if __name__ == '__main__':
     if metode == "yin":
         import Yin
-        a = "Yin"
     elif metode == "fft":
         import FFT
     elif metode == "zeroC":
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     start = datetime.now()
     while True:
         try:
-            frek = ambil_data(a)
+            frek = ambil_data(senar)
             with ps.oneshot():
                 cpu_persen.append(ps.cpu_percent())
                 memori = ps.memory_full_info()
@@ -70,7 +70,7 @@ if __name__ == '__main__':
                         start = datetime.now()
                 else: #untuk memastikan perhitungan bukan ((hoki))
                     hitung = 0
-            else: #kalo beda > 30
+            else: #kalo beda > 20
                 Servo.hold()
 
         except KeyboardInterrupt:
