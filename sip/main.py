@@ -15,7 +15,7 @@ cek = False
 hitung = 0
 cpu_persen = []
 
-def ambil_data():
+def ambil_data(a):
     x = audio.ambil_data
     if metode == "yin":
         frek = a.main(x)
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     start = datetime.now()
     while True:
         try:
-            frek = ambil_data()
+            frek = ambil_data(a)
             with ps.oneshot():
                 cpu_persen.append(ps.cpu_percent())
                 memori = ps.memory_full_info()
