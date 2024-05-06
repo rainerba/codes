@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 #     freq = 48000. / avg_time_between_crossings / 2.
 #     return freq
 
+
 def main(x):
     plt.plot(x, label = 'asli')
     # Duplikasi data
@@ -33,7 +34,7 @@ def main(x):
     freq = (48000. * (zcrP + zcrN) / N) / 2.
     print(freq)
     plt.legend()
-    #plt.show()
+    plt.show()
     return freq
 
 if __name__ == '__main__':
@@ -47,7 +48,7 @@ if __name__ == '__main__':
                 input=True,
                 output=True,
                 frames_per_buffer=CHUNK,
-                input_device_index = 1)
+                input_device_index = 2)
     while True:
         try:
             y = stream.read(CHUNK, exception_on_overflow = False)

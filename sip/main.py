@@ -5,8 +5,8 @@ import Servo
 from time import sleep
 from datetime import datetime
 
-metode = "zeroC"
-threshold= 0.5 #persen
+metode = "yin"
+threshold= 2. #persen
 MIC = 2
 
 CHUNK = 8192
