@@ -1,23 +1,32 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter
 
-# def main(x):
-#     zero_crossings = np.where(np.diff(np.sign(x)))[0]
-#     time_between_crossings = np.diff(zero_crossings)
-#     avg_time_between_crossings = np.mean(time_between_crossings)
-#     freq = 48000. / avg_time_between_crossings / 2.
-#     return freq
+def butter_bandpass(lowcut, highcut, fs, order=5):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter(order, [low, high], btype='band')
+    return b, a
+
+def butter_bandpass_filter(data, lowcut=75., highcut=350., fs=48000., order=3):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
 
 def main(x):
-    plt.plot(x, label = 'asli')
+    # plt.plot(x, label = 'asli')
+    x = butter_bandpass_filter(x)
+    plt.plot(x, label = 'filtered')
+
     # Duplikasi data
     #x = np.append(x,x) # 16_384
     #x = np.append(x,x) # 32_768
     #x = np.append(x,x) # 65_536
     
     # Simple Moving Average
-    x = np.convolve(x,np.ones(64), 'same')
-    plt.plot(x, label = 'data')
+    # x = np.convolve(x,np.ones(64), 'same')
+    # plt.plot(x, label = 'filtered')
 
     zcrP = 0
     zcrN = 0
@@ -32,8 +41,6 @@ def main(x):
             zcrN+=1
     freq = (48000. * (zcrP + zcrN) / N) / 2.
     print(freq)
-    plt.plot(xP, label = 'xP')
-    plt.plot(xN, label = 'xN')
     plt.legend()
     plt.show()
     return freq

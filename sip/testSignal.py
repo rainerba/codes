@@ -1,7 +1,7 @@
 import numpy as np
 
 metode = "zeroC"
-f=329.63 # Frekuensi sinyal
+f=82.41 # Frekuensi sinyal
 CHUNK = 8192
 harmonics = 6
 fs = 48000.
