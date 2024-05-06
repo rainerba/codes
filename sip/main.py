@@ -41,7 +41,7 @@ def ambil_data():
     elif metode == "fft":
         frek = FFT.estimate_frequency(x)
     elif metode == "zeroC":
-        frek = Zero_Crossing.main(x)
+        frek = Zero_Crossing.main(x, senar)
     else:
         print("metode salah")
     return frek    
