@@ -34,3 +34,22 @@ def stop():
     stream.close()
     p.terminate()
     print("Program Berhenti")
+
+def record():
+    import wave
+    RECORD_SECONDS = 5
+    WAVE_OUTPUT_FILENAME = "voice.wav"
+    print("* recording")
+    frames = []
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+    print("*done recording")
+    stop()
+    
+    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wf.setnchannels(1)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(48000)
+    wf.writeframes(b''.join(frames))
+    wf.close()

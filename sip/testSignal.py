@@ -26,5 +26,5 @@ if __name__ == '__main__':
         frek = FFT.estimate_frequency(data)
     elif metode == "zeroC":
         import Zero_Crossing
-        frek = Zero_Crossing.main(data)
+        frek = Zero_Crossing.main(data,senar=5)
     print(frek)
