@@ -5,11 +5,10 @@ from time import sleep
 from datetime import datetime
 
 metode = "zeroC"
-threshold= 2. #Hz
+threshold= 0.1 # Hz
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 cek = False
-pitch_before = 0.
 hitung = 0
 
 def ambil_data(senar):
@@ -34,6 +33,7 @@ if __name__ == '__main__':
         import Zero_Crossing
     else:
         input("Metode salah, ketik yin, fft, atau zero_crossing")
+    print("Metode: ", metode)
     print("Threshold: ", threshold, "Hz")
     senar = int(input("Pilih senar yang akan diatur: ")) - 1
     Servo.start_servo()
@@ -44,7 +44,7 @@ if __name__ == '__main__':
             frek = ambil_data(senar)   
             pitch_before = frek
             beda = frek - pSenar[senar]
-            if np.abs(beda) < 20: #ubah kalo terlalu banyak noise yang kedetect
+            if np.abs(beda) < 20:
                 print("beda", beda)
                 print(frek, "Hz")
                 if Servo.main(beda, threshold):

@@ -5,18 +5,17 @@ import audio
 from time import sleep
 from datetime import datetime
 
-metode = "yin"
-threshold= 2. #persen
+metode = "zeroC"
+threshold= 5. # persen
 
-CHUNK = 8192
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-ps = psutil.Process()
 cek = False
 hitung = 0
+ps = psutil.Process()
 cpu_persen = []
 
 def ambil_data(senar):
-    x = audio.ambil_data
+    x = audio.ambil_data()
     if metode == "yin":
         frek = Yin.main(x)
     elif metode == "fft":
@@ -37,6 +36,7 @@ if __name__ == '__main__':
         import Zero_Crossing
     else:
         input("Metode salah, ketik yin, fft, atau zero_crossing")
+    print("Metode: ", metode)
     print("Threshold: ", threshold, "persen")
     senar = int(input("Pilih senar yang akan diatur: ")) - 1
     Servo.start_servo()
@@ -48,9 +48,8 @@ if __name__ == '__main__':
             with ps.oneshot():
                 cpu_persen.append(ps.cpu_percent())
                 memori = ps.memory_full_info()
-                # print(memori)
             beda = frek - pSenar[senar]
-            if np.abs(beda) < 20: #ubah kalo terlalu banyak noise yang kedetect, <20 karena +100 cents senar 1 = 19.6 Hz
+            if np.abs(beda) < 20: # <20 karena +100 cents senar 1 = 19.6 Hz
                 print("beda", beda)
                 print(frek, "Hz")
                 if Servo.main(beda, pSenar[senar] * threshold / 100):
