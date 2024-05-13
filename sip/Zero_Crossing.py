@@ -19,8 +19,6 @@ def main(x, senar):
 
     abs = np.abs(x)
     max = np.max(abs)
-    zcrP = 0
-    zcrN = 0
     N = len(x)
     L = 1.2 * np.sum(abs) / N
     xP = x-L
@@ -43,8 +41,6 @@ def main(x, senar):
     else:
         freq = 0.
     return freq
-    
-
 
 if __name__ == '__main__':
     import audio
