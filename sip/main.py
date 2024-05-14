@@ -6,7 +6,7 @@ from time import sleep
 from datetime import datetime
 
 metode = "zeroC"
-threshold= 5. # persen
+threshold= 1. # persen
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 cek = False
@@ -62,10 +62,10 @@ if __name__ == '__main__':
                         hasil = (end - start).total_seconds()
                         print(hasil, "detik")
                         cpu = np.mean(cpu_persen)
-                        cpu_persen = []
                         print(cpu, "cpu")
-                        senar = int(input("Senar? ")) - 1
+                        cpu_persen = []
                         hitung = 0
+                        senar = int(input("Senar? ")) - 1
                         start = datetime.now()
                 else: #untuk memastikan perhitungan bukan ((hoki))
                     hitung = 0
@@ -73,8 +73,6 @@ if __name__ == '__main__':
                 Servo.hold()
 
         except KeyboardInterrupt:
-            cpu = np.mean(cpu_persen)
-            print(cpu)
             audio.stop()
             Servo.servo_stop()
             break
