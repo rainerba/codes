@@ -44,7 +44,7 @@ if __name__ == '__main__':
             frek = ambil_data(senar)   
             pitch_before = frek
             beda = frek - pSenar[senar]
-            if np.abs(beda) < 20:
+            if np.abs(beda) < 30:
                 print("beda", beda)
                 print(frek, "Hz")
                 if Servo.main(beda, threshold):

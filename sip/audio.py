@@ -1,7 +1,7 @@
 import pyaudio
 import numpy as np
 
-MIC = 1
+MIC = 2
 CHUNK = 8192
 RATE = 48000
 p =  pyaudio.PyAudio()
@@ -26,7 +26,7 @@ def ambil_data():
     y = stream.read(CHUNK, exception_on_overflow = False)
     data = np.frombuffer(y, dtype=np.float32)
     x = data.copy()
-    # x -= np.mean(x)
+    x -= np.mean(x)
     return x
 
 def stop():

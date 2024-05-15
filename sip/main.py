@@ -5,8 +5,8 @@ import audio
 from time import sleep
 from datetime import datetime
 
-metode = "zeroC"
-threshold= 1. # persen
+metode = "yin"
+threshold= 0.5 # persen
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 cek = False
@@ -49,7 +49,7 @@ if __name__ == '__main__':
                 cpu_persen.append(ps.cpu_percent())
                 memori = ps.memory_full_info()
             beda = frek - pSenar[senar]
-            if np.abs(beda) < 20: # <20 karena +100 cents senar 1 = 19.6 Hz
+            if np.abs(beda) < 30: # <20 karena +100 cents senar 1 = 19.6 Hz, dan error rate 50%
                 print("beda", beda)
                 print(frek, "Hz")
                 if Servo.main(beda, pSenar[senar] * threshold / 100):
