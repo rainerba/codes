@@ -9,7 +9,6 @@ metode = "yin"
 threshold= 0.5 # persen
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-cek = False
 hitung = 0
 ps = psutil.Process()
 cpu_persen = []
@@ -52,7 +51,7 @@ if __name__ == '__main__':
             if np.abs(beda) < 30: # <20 karena +100 cents senar 1 = 19.6 Hz, dan error rate 50%
                 print("beda", beda)
                 print(frek, "Hz")
-                if Servo.main(beda, pSenar[senar] * threshold / 100):
+                if Servo.main(beda, pSenar[senar] * threshold / 100, senar):
                     print("Sudah sesuai threshold!")
                     hitung += 1
                     Servo.hold()

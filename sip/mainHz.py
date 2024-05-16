@@ -8,7 +8,6 @@ metode = "zeroC"
 threshold= 0.1 # Hz
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
-cek = False
 hitung = 0
 
 def ambil_data(senar):
@@ -47,7 +46,7 @@ if __name__ == '__main__':
             if np.abs(beda) < 30:
                 print("beda", beda)
                 print(frek, "Hz")
-                if Servo.main(beda, threshold):
+                if Servo.main(beda, threshold, senar):
                     print("Sudah sesuai threshold!")
                     hitung += 1
                     Servo.hold()
