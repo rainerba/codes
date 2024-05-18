@@ -12,6 +12,7 @@ pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
 hitung = 0
 ps = psutil.Process()
 cpu_persen = []
+memori = []
 
 def ambil_data(senar):
     x = audio.ambil_data()
@@ -46,7 +47,7 @@ if __name__ == '__main__':
             frek = ambil_data(senar)
             with ps.oneshot():
                 cpu_persen.append(ps.cpu_percent())
-                memori = ps.memory_full_info()
+                memori.append(ps.memory_full_info())
             beda = frek - pSenar[senar]
             if np.abs(beda) < 30: # <20 karena +100 cents senar 1 = 19.6 Hz, dan error rate 50%
                 print("beda", beda)
@@ -61,7 +62,9 @@ if __name__ == '__main__':
                         hasil = (end - start).total_seconds()
                         print(hasil, "detik")
                         cpu = np.mean(cpu_persen)
-                        print(cpu, "cpu")
+                        print("cpu", cpu)
+                        memorii = np.mean(memori)
+                        print("memori", memorii)
                         cpu_persen = []
                         hitung = 0
                         senar = int(input("Senar? ")) - 1
