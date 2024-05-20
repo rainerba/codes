@@ -36,8 +36,8 @@ def detect_pitch_interpolated_lesm(f, W, bounds, thresh=0.1):
         sample += correction
     return 48000 / sample
 
-def main(data,fmin=75, fmax=500, windows_size=1024):
-    lagMin = 48000//fmax #= 96
+def main(data,fmin=75, fmax=400, windows_size=1024):
+    lagMin = 48000//fmax #= 120
     lagMax = 48000//fmin #= 640
     bounds = [lagMin,lagMax]
     hasil = detect_pitch_interpolated_lesm(f=data, W=windows_size, bounds=bounds)
