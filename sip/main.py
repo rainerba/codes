@@ -49,7 +49,7 @@ if __name__ == '__main__':
                 cpu_persen.append(ps.cpu_percent())
                 memori.append(ps.memory_full_info())
             beda = frek - pSenar[senar]
-            if np.abs(beda) < 30: # <20 karena +100 cents senar 1 = 19.6 Hz, dan error rate 50%
+            if np.abs(beda) < 30: # <30 karena +100 cents senar 1 = 19.6 Hz, dan error rate 50% pada yin
                 print("beda", beda)
                 print(frek, "Hz")
                 if Servo.main(beda, pSenar[senar] * threshold / 100, senar):
