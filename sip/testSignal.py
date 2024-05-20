@@ -1,7 +1,7 @@
 import numpy as np
 
 metode = "zeroC"
-f=82.41 # Frekuensi sinyal
+f=329.63 # Frekuensi sinyal
 CHUNK = 8192
 harmonics = 6
 fs = 48000.
@@ -20,11 +20,11 @@ if __name__ == '__main__':
 
     if metode == "yin":
         import Yin
-        frek = Yin.process_audio(data)
+        frek = Yin.main(data)
     elif metode == "fft":
         import FFT
-        frek = FFT.estimate_frequency(data)
+        frek = FFT.main(data)
     elif metode == "zeroC":
         import Zero_Crossing
-        frek = Zero_Crossing.main(data,senar=5)
+        frek = Zero_Crossing.main(data,senar=0)
     print(frek)
