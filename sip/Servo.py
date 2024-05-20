@@ -6,7 +6,6 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(12, GPIO.OUT)
 p = GPIO.PWM(12,50)
 
-sleepy=0.4
 threshold = 20.
 
 senar = [[6. , 7.9],[6.2 , 7.8],[6.3 , 7.6],[5.7 ,7.9 ],[5.6 , 8.1],[6. , 7.8]]
