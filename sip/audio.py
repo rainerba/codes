@@ -2,7 +2,7 @@ import pyaudio
 import numpy as np
 
 MIC = 1
-CHUNK = 2048
+CHUNK = 8192
 RATE = 48000
 p =  pyaudio.PyAudio()
 stream = p.open(format=pyaudio.paFloat32,

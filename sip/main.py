@@ -66,6 +66,7 @@ if __name__ == '__main__':
                         memorii = np.mean(memori)
                         print("memori", memorii)
                         cpu_persen = []
+                        memori = []
                         hitung = 0
                         senar = int(input("Senar? ")) - 1
                         start = datetime.now()
