@@ -4,7 +4,7 @@ import numpy as np
 # Note detect funtions only need recieve the data from t to t + W + lagMax
  
 def ACF_lesm(f, W, t, lag):
-    corr = np.correlate(f[t:t+W], f[t+lag:t+lag+W], mode='valid') #corr: makin banyak kesamaan, makin tinggi nilai
+    corr = np.correlate(f[t:t+W], f[t+lag:t+lag+W], mode='valid')
     return corr[0]
 
 def DF_lesm(f, W, lag):
