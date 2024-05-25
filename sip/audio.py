@@ -1,7 +1,7 @@
 import pyaudio
 import numpy as np
 
-MIC = 1
+MIC = 2
 CHUNK = 8192
 RATE = 48000
 p =  pyaudio.PyAudio()
