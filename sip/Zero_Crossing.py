@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.signal import butter, sosfilt
 
+batas = [[293.66,369.99],[220.0,277.18],[174.61,220.],[130.81,164.81],[98.,123.47],[146.83,185.]]# senar 6 pakai harmoni pertama
+
 def butter_bandpass(lowcut, highcut, fs, order):
     nyq = 0.5 * fs
     low = lowcut / nyq
@@ -14,7 +16,6 @@ def butter_bandpass_filter(data, lowcut=75., highcut=350., fs=48000., order=3):
     return y
 
 def main(x, senar):
-    batas = [[293.66,369.99],[220.0,277.18],[174.61,220.],[130.81,164.81],[98.,123.47],[146.83,185.]]# senar 6 pakai harmoni pertama
     x = butter_bandpass_filter(x, lowcut=batas[senar][0], highcut=batas[senar][1])
 
     abs = np.abs(x)
