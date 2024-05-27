@@ -5,7 +5,7 @@ import audio
 from time import sleep
 from datetime import datetime
 
-metode = "fft"
+metode = "yin"
 threshold= 0.5 # persen
 
 pSenar = [329.63, 246.94, 196.00, 146.83, 110.00, 82.41]
